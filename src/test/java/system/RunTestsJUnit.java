@@ -11,14 +11,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import system.helpers.DriverManager;
-import system.pages.SeleniumEasyMainPage;
+import system.pages.MainPage;
+import system.pages.LeftMenuPage;
+
 import java.util.Arrays;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static system.helpers.Constants.TEST_DATA_PATH;
 
-class Main {
+import static org.junit.jupiter.api.Assertions.*;
+
+class RunTestsJUnit {
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -34,7 +35,7 @@ class Main {
         DriverManager.quitDriver();
     }
 
-    //@Disabled("...")
+    @Disabled("...")
     @Test
     void atividade13() throws InterruptedException {
         System.out.println("***** ATIVIDADE 13 *****");
@@ -50,7 +51,7 @@ class Main {
         firstName.sendKeys("Maria Fernanda");
         state.sendKeys("Arizona");
         hostingYes.click();
-        //botaoSend.click();
+        botaoSend.click();
         Thread.sleep(2000);
     }
 
@@ -279,6 +280,7 @@ class Main {
         System.out.println(driver.findElement(seletorMensagemSucesso).getText());
     }
 
+
     //
 
     @Disabled("...")
@@ -307,7 +309,7 @@ class Main {
                 "O botão 'send' não está habilitado, pois a descrição tem menos de 10 caracteres"
         );
 
-        driver.findElement(emailFieldSelector).sendKeys("lala@");
+        driver.findElement(emailFieldSelector).sendKeys("lala@dsad");
 
         assertAll("Validar o tratamento de de erro do email",
                 () -> assertTrue(
@@ -347,7 +349,7 @@ class Main {
         WebElement tabela = driver.findElement(By.id("task-table"));
         WebElement cabecalhoTerceiraColuna = tabela.findElement(By.cssSelector("thead tr th:nth-child(3)"));
         List<WebElement> terceiraColuna = tabela.findElements(By.cssSelector("tbody tr td:nth-child(3)"));
-        List<String> esperadoTerceiraColuna = Arrays.asList("John Smith", "Mike Trout", "Loblab Dan", "Emily John");
+        List<String> esperadoTerceiraColuna = Arrays.asList("John Smith", "Mike2 Trout", "Loblab Dan", "Emiqly John");
 
         assertEquals(
                 "Assignee",
@@ -418,7 +420,7 @@ class Main {
         Thread.sleep(4000);
     }
 
-    @Disabled("...")
+    @Disabled
     @ParameterizedTest
     @CsvSource({
             "Emily John, 4",
@@ -437,10 +439,29 @@ class Main {
                 "A linha " + numLinha + " da tabela contém o assignee " + nome);
     }
 
-    @Disabled("...")
+    @Disabled
     @ParameterizedTest
-    @CsvFileSource(files = TEST_DATA_PATH + "nome-idade.csv", numLinesToSkip = 1)
-    void atividade28ComArquivo(String nome, int numLinha) {
+    @CsvSource({
+            "Emily John, 4",
+            "Holden Charles, 5",
+            "John Smith, 1"
+    })
+    void atividade28ExtraCsv(String nome, int numLinha) {
+        System.out.println("***** ATIVIDADE 28 *****");
+
+        driver.get("https://demo.seleniumeasy.com/table-search-filter-demo.html");
+
+        WebElement qualquerLinhaTabela =
+                driver.findElement(By.cssSelector("#task-table tbody tr:nth-child(" + numLinha + ")"));
+
+        assertTrue(qualquerLinhaTabela.getText().contains(nome),
+                "A linha " + numLinha + " da tabela contém o assignee " + nome);
+    }
+
+    @Disabled
+    @ParameterizedTest
+    @CsvFileSource(files = "src/test/java/system/resources/data/nome-idade.csv", numLinesToSkip = 1)
+    void atividade28ExtraCsvComArquivo(String nome, int numLinha) {
         System.out.println("***** ATIVIDADE 28 *****");
 
         driver.get("https://demo.seleniumeasy.com/table-search-filter-demo.html");
@@ -453,10 +474,19 @@ class Main {
     }
 
 
-    @Disabled("...")
+    //
+
     @Test
-    void extraTestandoPageObject() {
-        SeleniumEasyMainPage paginaPrincipal = new SeleniumEasyMainPage();
+    void atividades29e30() throws InterruptedException {
+        // Opcao 1
+        MainPage paginaPrincipal = new MainPage();
+        LeftMenuPage leftMenu = new LeftMenuPage();
+
         paginaPrincipal.acessar();
+        leftMenu.clicarBotaoTable();
+
+        // Opcao 2
+        // MainPage paginaPrincipal = new MainPage();
+        //paginaPrincipal.acessar().leftMenu().clicarBotaoTable();
     }
 }
