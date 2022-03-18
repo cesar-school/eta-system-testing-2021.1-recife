@@ -11,8 +11,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import system.helpers.DriverManager;
-import system.pages.MainPage;
 import system.pages.LeftMenuPage;
+import system.pages.MainPage;
+import system.pages.TableSortSearchPage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -481,12 +482,37 @@ class RunTestsJUnit {
         // Opcao 1
         MainPage paginaPrincipal = new MainPage();
         LeftMenuPage leftMenu = new LeftMenuPage();
+        TableSortSearchPage paginaSortSearch = new TableSortSearchPage();
 
+        int quantidadeEsperadaLinhasTabela = 10;
+
+        // TEST
         paginaPrincipal.acessar();
         leftMenu.clicarBotaoTable();
+        leftMenu.clicarBotaoTableSortSearch();
+
+        assertEquals(
+                quantidadeEsperadaLinhasTabela,
+                paginaSortSearch.getQuantidadeLinhasVisiveisNaTabela(),
+                "Antes de ser filtrada a primeira página da tabela mostra " + quantidadeEsperadaLinhasTabela + " linhas"
+        );
+
+        paginaSortSearch.pesquisarPor("London");
+        paginaSortSearch.aguardarTabelaSerFiltrada();
+
+        quantidadeEsperadaLinhasTabela = 7;
+
+        assertEquals(
+                quantidadeEsperadaLinhasTabela,
+                paginaSortSearch.getQuantidadeLinhasVisiveisNaTabela(),
+                "Depois de filtrada por 'London' a tabela mostra " + quantidadeEsperadaLinhasTabela + " linhas"
+        );
 
         // Opcao 2
-        // MainPage paginaPrincipal = new MainPage();
-        //paginaPrincipal.acessar().leftMenu().clicarBotaoTable();
+//        MainPage paginaPrincipal = new MainPage();
+//        paginaPrincipal
+//                .acessar()
+//                .leftMenu()
+//                .clicarBotaoTable();
     }
 }

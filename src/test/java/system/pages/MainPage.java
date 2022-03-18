@@ -18,7 +18,7 @@ public class MainPage {
     private By learnSeleniumPopup = By.cssSelector(".at-cm-no-button");
 
     /*
-     Interação
+     Construtor
      */
 
     public MainPage() {
@@ -26,13 +26,17 @@ public class MainPage {
         this.wait = DriverManager.getDriverWait();
     }
 
+    /*
+     Interação
+     */
+
     public MainPage acessar() {
         this.driver.get(SELENIUM_EASY_MAIN_PAGE);
 
         try {
             this.closePopup();
         } catch (Exception e) {
-            // nada
+            //
         }
 
         return this;

@@ -3,6 +3,7 @@ package system.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import system.helpers.DriverManager;
 
@@ -20,7 +21,7 @@ public class LeftMenuPage {
     private By tableBotaoSeletor = By.cssSelector(".nav > li:nth-child(3) a");
 
     // Table sub menu
-    private By tableSortSearchBotaoSeletor = By.cssSelector("");
+    private By tableSortSearchBotaoSeletor = By.cssSelector(".nav > li:nth-child(3) .dropdown-menu > li:nth-child(4) a");
 
 
     /*
@@ -42,7 +43,9 @@ public class LeftMenuPage {
         navMenu.findElement(tableBotaoSeletor).click();
     }
 
-    public void navegarParaTableSortSearch() {
-
+    public void clicarBotaoTableSortSearch() {
+        WebElement navMenu = driver.findElement(navMenuSeletor);
+        wait.until(ExpectedConditions.presenceOfElementLocated(tableSortSearchBotaoSeletor));
+        navMenu.findElement(tableSortSearchBotaoSeletor).click();
     }
 }
